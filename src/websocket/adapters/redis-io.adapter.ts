@@ -16,14 +16,18 @@ export class RedisIoAdapter extends IoAdapter {
   private adaptarConstructor: ReturnType<typeof createAdapter>;
 
   async connectToRedis(): Promise<void> {
-    const pubClient = createClient({
-      url: this.configService.get('redis.url'),
-    });
-    const subClient = pubClient.duplicate();
+    try {
+      const pubClient = createClient({
+        url: this.configService.get('redis.url'),
+      });
+      const subClient = pubClient.duplicate();
 
-    await Promise.all([pubClient.connect(), subClient.connect()]);
+      await Promise.all([pubClient.connect(), subClient.connect()]);
 
-    this.adaptarConstructor = createAdapter(pubClient, subClient);
+      this.adaptarConstructor = createAdapter(pubClient, subClient);
+    } catch (e: any) {
+      console.log('Connect to redis error => ', e);
+    }
   }
 
   createIOServer(port: number, options?: ServerOptions): any {
