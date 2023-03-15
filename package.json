@@ -1,8 +1,8 @@
 {
   "name": "webrtc-backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "WebRTC Signaling Server",
+  "author": "Herrold H. Real",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -73,5 +73,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": "16.14.2"
   }
 }
