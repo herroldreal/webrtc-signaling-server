@@ -16,7 +16,6 @@ export class RedisIoAdapter extends IoAdapter {
   private adaptarConstructor: ReturnType<typeof createAdapter>;
 
   async connectToRedis(): Promise<void> {
-    console.log('Redis URL => ', this.configService.get('redis.url'));
     const pubClient = createClient({
       url: this.configService.get('redis.url'),
     });
