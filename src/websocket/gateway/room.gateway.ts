@@ -91,5 +91,6 @@ export class RoomGateway
   @SubscribeMessage('rtc')
   async ping(@MessageBody('name') message: string) {
     this.logger.debug(`RTC Signaling => ${message}`);
+    this.io.to('rooms').emit('rtc', { message: `Recibido ${message}` });
   }
 }
