@@ -18,6 +18,10 @@ import { WsCatchAllFilter } from '../../exceptions/ws-catch-all-filter';
 @WebSocketGateway({
   namespace: 'rtc',
   transports: 'websocket',
+  allowEIO3: true,
+  cors: {
+    origin: ['*'],
+  },
 })
 export class SignalingGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
