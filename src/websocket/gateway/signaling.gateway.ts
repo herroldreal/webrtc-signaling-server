@@ -43,6 +43,8 @@ export class SignalingGateway
     this.logger.debug(`Socket connected`);
     this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
+
+    client.emit('connection', 'Success');
   }
 
   async handleDisconnect(client: SocketWithAuth): Promise<any> {
