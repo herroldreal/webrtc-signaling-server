@@ -44,7 +44,7 @@ export class SignalingGateway
     this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
-    client.emit('connection', 'Success');
+    client.emit('connection', WebRTCSessionStateEnum.Ready);
   }
 
   async handleDisconnect(client: SocketWithAuth): Promise<any> {
