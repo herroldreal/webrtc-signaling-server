@@ -27,8 +27,6 @@ export class SignalingGateway
 {
   @WebSocketServer() io: Namespace;
   private readonly logger = new Logger(SignalingGateway.name);
-  private sessionState: WebRTCSessionStateEnum =
-    WebRTCSessionStateEnum.Impossible;
 
   afterInit(): any {
     this.logger.log(`Websocket Signaling Gateway initialized`);
@@ -70,6 +68,8 @@ export class SignalingGateway
     /*if (updatedRoom) {
       this.io.to(roomId).emit('poll_updated', updatedRoom);
     }*/
+
+    client.emit('disconnect', WebRTCSessionStateEnum.Close);
   }
 
   @SubscribeMessage('rtc')
