@@ -34,14 +34,14 @@ export class RoomGateway
   async handleConnection(client: SocketWithAuth) {
     const sockets = this.io.sockets;
 
-    this.logger.debug(
+    /*this.logger.debug(
       `Socket connected with userId: ${client.userId}, roomId: ${client.roomId} and name: ${client.name}`,
-    );
-
+    );*/
+    this.logger.debug(`Socket connected`);
     this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
-    const roomName = client.roomId;
+    /* const roomName = client.roomId;
     await client.join(roomName);
 
     const connectedClients = this.io.adapter.rooms?.get(roomName)?.size ?? 0;
@@ -58,8 +58,8 @@ export class RoomGateway
       userId: client.userId,
       name: client.name,
     });
-
-    this.io.to(roomName).emit('room_updated', updatedPoll);
+*/
+    this.io.to('identity').emit('room_updated', { name: 'Herrold Real' });
   }
 
   async handleDisconnect(client: any): Promise<any> {
