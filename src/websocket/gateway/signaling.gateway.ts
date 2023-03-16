@@ -1,67 +1,53 @@
-import { Logger, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
 import {
-  OnGatewayInit,
-  WebSocketGateway,
+  ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
-  WebSocketServer,
+  OnGatewayInit,
   SubscribeMessage,
-  MessageBody,
-  ConnectedSocket,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
-import { Namespace } from 'socket.io';
-import { WsCatchAllFilter } from '../../exceptions/ws-catch-all-filter';
-import { RoomService } from '../../services/room/room.service';
 import { SocketWithAuth } from '../rooms/types';
-import { MessageTo } from '../models/message.to.model';
+import { Namespace } from 'socket.io';
+import { Logger, UseFilters } from '@nestjs/common';
+import { WebRTCSessionStateEnum } from '../enums/webrtcsessionstate.enum';
+import { WsCatchAllFilter } from '../../exceptions/ws-catch-all-filter';
 
-@UsePipes(new ValidationPipe())
 @UseFilters(new WsCatchAllFilter())
 @WebSocketGateway({
-  namespace: 'rooms',
+  namespace: 'rtc',
 })
-export class RoomGateway
+export class SignalingGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer() io: Namespace;
-  private readonly logger = new Logger(RoomGateway.name);
-
-  constructor(private readonly roomService: RoomService) {}
+  private readonly logger = new Logger(SignalingGateway.name);
+  private sessionState: WebRTCSessionStateEnum =
+    WebRTCSessionStateEnum.Impossible;
 
   afterInit(): any {
-    this.logger.log(`Websocket Gateway initialized`);
+    this.logger.log(`Websocket Signaling Gateway initialized`);
   }
 
   async handleConnection(client: SocketWithAuth) {
-    this.logger.debug(`handleConnection => ${JSON.stringify(client.rooms)}`);
+    this.logger.debug(
+      `handleConnection (signaling) => ${JSON.stringify(client.rooms)}`,
+    );
     const sockets = this.io.sockets;
 
-    /*this.logger.debug(
-      `Socket connected with userId: ${client.userId}, roomId: ${client.roomId} and name: ${client.name}`,
-    );*/
+    if (sockets.size > 2) {
+      client.send(WebRTCSessionStateEnum.Close);
+    }
+
+    client.send(`Added as a client: ${client.id}`);
     this.logger.debug(`Socket connected`);
     this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
-    /* const roomName = client.roomId;
-    await client.join(roomName);
+    if (sockets.size > 1) this.sessionState = WebRTCSessionStateEnum.Ready;
 
-    const connectedClients = this.io.adapter.rooms?.get(roomName)?.size ?? 0;
-
-    this.logger.debug(
-      `userID: ${client.userId} joined room with name: ${roomName}`,
-    );
-    this.logger.debug(
-      `Total clients connected to room '${roomName}': ${connectedClients}`,
-    );
-
-    const updatedPoll = await this.roomService.addParticipant({
-      roomId: client.roomId,
-      userId: client.userId,
-      name: client.name,
-    });
-*/
-    this.io.to('/rooms').emit('rtc', { name: 'Herrold Real' });
+    client.emit('ping', { state: this.sessionState });
   }
 
   async handleDisconnect(client: SocketWithAuth): Promise<any> {
@@ -89,12 +75,19 @@ export class RoomGateway
     }*/
   }
 
-  @SubscribeMessage('to')
-  async messageTo(
-    @MessageBody() data: MessageTo,
+  @SubscribeMessage('ping')
+  async ping(
+    @MessageBody('state') state: string,
     @ConnectedSocket() socket: SocketWithAuth,
-  ) {
-    this.logger.log(`Message to: ${JSON.stringify(data, null, 2)}`);
-    socket.emit('to', data);
+  ): Promise<boolean> {
+    return socket.emit('signaling', { name: state });
+  }
+
+  @SubscribeMessage('signaling')
+  async signaling(
+    @MessageBody('name') message: string,
+    @ConnectedSocket() socket: SocketWithAuth,
+  ): Promise<boolean> {
+    return socket.emit('signaling', { name: message });
   }
 }
