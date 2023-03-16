@@ -17,6 +17,7 @@ import { WsCatchAllFilter } from '../../exceptions/ws-catch-all-filter';
 @UseFilters(new WsCatchAllFilter())
 @WebSocketGateway({
   namespace: 'rtc',
+  transports: 'websocket',
 })
 export class SignalingGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
@@ -77,6 +78,7 @@ export class SignalingGateway
 
   @SubscribeMessage('/')
   async root(@ConnectedSocket() socket: SocketWithAuth) {
+    this.logger.log('RTC Ping');
     return socket.emit('rtc', { name: WebRTCSessionStateEnum.Ready });
   }
 
@@ -85,6 +87,7 @@ export class SignalingGateway
     @MessageBody('state') state: string,
     @ConnectedSocket() socket: SocketWithAuth,
   ): Promise<boolean> {
+    this.logger.log('Ping', state);
     return socket.emit('signaling', { name: state });
   }
 
@@ -93,6 +96,7 @@ export class SignalingGateway
     @MessageBody('name') message: string,
     @ConnectedSocket() socket: SocketWithAuth,
   ): Promise<boolean> {
+    this.logger.log('Signaling', message);
     return socket.emit('signaling', { name: message });
   }
 }
