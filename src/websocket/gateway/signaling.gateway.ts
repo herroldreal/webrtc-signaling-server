@@ -37,18 +37,13 @@ export class SignalingGateway
     );
     const sockets = this.io.sockets;
 
-    if (sockets.size > 2) {
-      client.send(WebRTCSessionStateEnum.Close);
-    }
-
-    client.send(`Added as a client: ${client.id}`);
     this.logger.debug(`Socket connected`);
     this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
     if (sockets.size > 1) this.sessionState = WebRTCSessionStateEnum.Ready;
 
-    client.emit('ping', { state: this.sessionState });
+    client.emit('/', { state: this.sessionState });
   }
 
   async handleDisconnect(client: SocketWithAuth): Promise<any> {
