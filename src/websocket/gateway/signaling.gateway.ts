@@ -75,6 +75,11 @@ export class SignalingGateway
     }*/
   }
 
+  @SubscribeMessage('/')
+  async root(@ConnectedSocket() socket: SocketWithAuth) {
+    return socket.emit('rtc', { name: WebRTCSessionStateEnum.Ready });
+  }
+
   @SubscribeMessage('ping')
   async ping(
     @MessageBody('state') state: string,
