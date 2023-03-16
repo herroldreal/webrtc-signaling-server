@@ -5,6 +5,9 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
   WebSocketServer,
+  SubscribeMessage,
+  MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Namespace } from 'socket.io';
 import { WsCatchAllFilter } from '../../exceptions/ws-catch-all-filter';
@@ -82,5 +85,13 @@ export class RoomGateway
     if (updatedRoom) {
       this.io.to(roomId).emit('poll_updated', updatedRoom);
     }
+  }
+
+  @SubscribeMessage('rtc')
+  async ping(
+    @MessageBody() message: string,
+    @ConnectedSocket() client: SocketWithAuth,
+  ) {
+    this.logger.debug(`RTC Signaling`);
   }
 }
