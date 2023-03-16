@@ -4,7 +4,7 @@ import {
   Catch,
   ExceptionFilter,
 } from '@nestjs/common';
-import { SocketWithAuth } from 'src/websocket/rooms/types';
+import { SocketWithAuth } from '../websocket/rooms/types';
 import {
   WsBadRequestException,
   WsTypeException,

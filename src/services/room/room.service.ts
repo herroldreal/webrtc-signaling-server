@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Room } from 'src/websocket/super/types';
-import { createRoomID, createUserID } from 'src/utils/ids';
-import { RoomsRepository } from 'src/services/room/room.repository';
+import { Room } from '../../websocket/super/types';
+import { createRoomID, createUserID } from '../../utils/ids';
+import { RoomsRepository } from './room.repository';
 import {
   AddParticipantFields,
   CreateRoomFields,

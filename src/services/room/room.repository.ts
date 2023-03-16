@@ -1,16 +1,11 @@
-import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
-import { IORedisKey } from 'src/modules/redis.module';
-import {
-  AddNominationData,
-  AddParticipantData,
-  AddParticipantFields,
-  CreateRoomFields,
-} from 'src/websocket/rooms/types';
-import { Room, Results } from 'src/websocket/super/types';
+import { IORedisKey } from '../../modules/redis.module';
+import { AddParticipantFields } from 'src/websocket/rooms/types';
+import { Room } from 'src/websocket/super/types';
 
+@Injectable()
 export class RoomsRepository {
   // to use time-to-live from configuration
   private readonly ttl: string;
@@ -33,5 +28,7 @@ export class RoomsRepository {
   async getRoom(roomId: string): Promise<Room> {
     return null;
   }
-  async removeParticipant(roomId: string, userId: string) {}
+  async removeParticipant(roomId: string, userId: string) {
+    console.log('Remove participants');
+  }
 }

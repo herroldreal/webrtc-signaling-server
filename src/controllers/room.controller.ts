@@ -1,6 +1,6 @@
 import { UsePipes, ValidationPipe } from '@nestjs/common';
 import { Body, Controller, Post } from '@nestjs/common';
-import { RoomService } from 'src/services/room/room.service';
+import { RoomService } from '../services/room/room.service';
 
 @UsePipes(new ValidationPipe())
 @Controller('rooms')

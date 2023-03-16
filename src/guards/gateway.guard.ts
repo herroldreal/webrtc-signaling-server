@@ -5,7 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { WsUnauthorizedException } from 'src/exceptions/ws-exceptions';
+import { WsUnauthorizedException } from '../exceptions/ws-exceptions';
 import { RoomService } from '../services/room/room.service';
 import { AuthPayload, SocketWithAuth } from '../websocket/rooms/types';
 

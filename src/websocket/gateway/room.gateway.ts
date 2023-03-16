@@ -1,22 +1,13 @@
-import {
-  Logger,
-  UseFilters,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Logger, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
 import {
   OnGatewayInit,
   WebSocketGateway,
   OnGatewayConnection,
   OnGatewayDisconnect,
   WebSocketServer,
-  SubscribeMessage,
-  MessageBody,
-  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Namespace } from 'socket.io';
-import { WsCatchAllFilter } from 'src/exceptions/ws-catch-all-filter';
+import { WsCatchAllFilter } from '../../exceptions/ws-catch-all-filter';
 import { RoomService } from '../../services/room/room.service';
 import { SocketWithAuth } from '../rooms/types';
 

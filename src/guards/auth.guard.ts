@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { RequestWithAuth } from '../websocket/rooms/types';
-import { contentVocabulary } from 'ajv/dist/vocabularies/metadata';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
