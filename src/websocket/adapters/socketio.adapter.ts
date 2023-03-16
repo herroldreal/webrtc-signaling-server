@@ -48,9 +48,9 @@ const createTokenMiddleware =
 
     try {
       const payload = jwtService.verify(token);
-      socket.userId = payload.sub;
+      /* socket.userId = payload.sub;
       socket.roomId = payload.pollID;
-      socket.name = payload.name;
+      socket.name = payload.name; */
       next();
     } catch {
       next(new Error('FORBIDDEN'));
