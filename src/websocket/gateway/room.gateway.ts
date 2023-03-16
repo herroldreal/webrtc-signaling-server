@@ -31,7 +31,8 @@ export class RoomGateway
     this.logger.log(`Websocket Gateway initialized`);
   }
 
-  async handleConnection(client: SocketWithAuth) {
+  async handleConnection(client: any) {
+    this.logger.debug(`handleConnection => ${client}`);
     const sockets = this.io.sockets;
 
     /*this.logger.debug(
