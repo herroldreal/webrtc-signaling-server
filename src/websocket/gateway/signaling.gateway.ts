@@ -41,7 +41,7 @@ export class SignalingGateway
     this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
-    if (sockets.size > 1) this.sessionState = WebRTCSessionStateEnum.Ready;
+    this.sessionState = WebRTCSessionStateEnum.Ready;
 
     client.emit('/', { state: this.sessionState });
   }
@@ -74,24 +74,6 @@ export class SignalingGateway
   @SubscribeMessage('/')
   async root(@ConnectedSocket() socket: SocketWithAuth) {
     this.logger.log('RTC Ping');
-    return socket.emit('rtc', { name: WebRTCSessionStateEnum.Ready });
-  }
-
-  @SubscribeMessage('ping')
-  async ping(
-    @MessageBody('state') state: string,
-    @ConnectedSocket() socket: SocketWithAuth,
-  ): Promise<boolean> {
-    this.logger.log('Ping', state);
-    return socket.emit('signaling', { name: state });
-  }
-
-  @SubscribeMessage('signaling')
-  async signaling(
-    @MessageBody('name') message: string,
-    @ConnectedSocket() socket: SocketWithAuth,
-  ): Promise<boolean> {
-    this.logger.log('Signaling', message);
-    return socket.emit('signaling', { name: message });
+    return socket.emit('/', WebRTCSessionStateEnum.Ready);
   }
 }

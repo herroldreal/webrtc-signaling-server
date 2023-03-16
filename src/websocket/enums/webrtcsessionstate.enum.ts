@@ -1,7 +1,7 @@
 export enum WebRTCSessionStateEnum {
-  Active,
-  Close,
-  Creating,
-  Ready,
-  Impossible,
+  Active = 'Active',
+  Close = 'Close',
+  Creating = 'Creating',
+  Ready = 'Ready',
+  Impossible = 'Impossible',
 }

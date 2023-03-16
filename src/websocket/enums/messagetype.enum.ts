@@ -1,6 +1,6 @@
 export enum MessageTypeEnum {
-  STATE,
-  OFFER,
-  ANSWER,
-  ICE,
+  STATE = 'STATE',
+  OFFER = 'OFFER',
+  ANSWER = 'ANSWER',
+  ICE = 'ICE',
 }
