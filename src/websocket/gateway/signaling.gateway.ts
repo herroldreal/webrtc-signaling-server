@@ -14,7 +14,7 @@ import { Logger, UseFilters } from '@nestjs/common';
 import { WebRTCSessionStateEnum } from '../enums/webrtcsessionstate.enum';
 import { WsCatchAllFilter } from '../../exceptions/ws-catch-all-filter';
 
-@UseFilters(new WsCatchAllFilter())
+//@UseFilters(new WsCatchAllFilter())
 @WebSocketGateway({
   namespace: 'rtc',
   transports: 'websocket',
