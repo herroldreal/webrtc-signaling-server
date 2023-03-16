@@ -19,7 +19,15 @@ export class RoomsRepository {
   }
 
   async createRoom(data: any): Promise<Room> {
-    return null;
+    return {
+      adminID: '12313',
+      hasStarted: false,
+      id: '1asd123',
+      participants: {
+        name: 'Herrold',
+      },
+      topic: 'Sex',
+    };
   }
 
   async addParticipant(participant: AddParticipantFields): Promise<Room> {
