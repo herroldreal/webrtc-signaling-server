@@ -43,20 +43,11 @@ export class SignalingGateway
     this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
-    client.emit('connection', WebRTCSessionStateEnum.Ready);
+    client.send(WebRTCSessionStateEnum.Ready);
   }
 
   async handleDisconnect(client: SocketWithAuth): Promise<any> {
     const sockets = this.io.sockets;
-
-    /* const { roomId, userId } = client;
-    const updatedRoom = await this.roomService.removeParticipant(
-      roomId,
-      userId,
-    );
-
-    const roomName = client.pollID;
-    const clientCount = this.io.adapter.rooms?.get(roomName)?.size ?? 0;*/
 
     this.logger.log(`Disconnected socket id: ${client.id}`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
@@ -64,24 +55,6 @@ export class SignalingGateway
       `Total clients connected to room '${sockets.size}': ${sockets.keys()}`,
     );
 
-    // updatedRoom could be undefined if the the poll already started
-    // in this case, the socket is disconnect, but no the room state
-    /*if (updatedRoom) {
-      this.io.to(roomId).emit('poll_updated', updatedRoom);
-    }*/
-
-    client.emit('disconnect', WebRTCSessionStateEnum.Close);
-  }
-
-  @SubscribeMessage('/')
-  async root(@ConnectedSocket() socket: SocketWithAuth) {
-    this.logger.log('RTC Ping');
-    return socket.emit('rtc', WebRTCSessionStateEnum.Ready);
-  }
-
-  @SubscribeMessage('rtc')
-  async rtc(@ConnectedSocket() socket: SocketWithAuth) {
-    this.logger.log('RTC Ping');
-    return socket.emit('rtc', WebRTCSessionStateEnum.Ready);
+    client.send(WebRTCSessionStateEnum.Close);
   }
 }
