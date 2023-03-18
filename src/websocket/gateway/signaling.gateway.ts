@@ -16,6 +16,7 @@ import { WsCatchAllFilter } from '../../exceptions/ws-catch-all-filter';
 
 //@UseFilters(new WsCatchAllFilter())
 @WebSocketGateway({
+  namespace: 'rtc',
   transports: 'websocket',
   allowEIO3: true,
   cors: {
@@ -72,8 +73,14 @@ export class SignalingGateway
     client.emit('disconnect', WebRTCSessionStateEnum.Close);
   }
 
-  @SubscribeMessage('rtc')
+  @SubscribeMessage('/')
   async root(@ConnectedSocket() socket: SocketWithAuth) {
+    this.logger.log('RTC Ping');
+    return socket.emit('rtc', WebRTCSessionStateEnum.Ready);
+  }
+
+  @SubscribeMessage('rtc')
+  async rtc(@ConnectedSocket() socket: SocketWithAuth) {
     this.logger.log('RTC Ping');
     return socket.emit('rtc', WebRTCSessionStateEnum.Ready);
   }
