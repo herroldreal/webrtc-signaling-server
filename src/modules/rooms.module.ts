@@ -4,11 +4,10 @@ import { jwtModule, redisModule } from './module.config';
 import { RoomService } from '../services/room/room.service';
 import { RoomsRepository } from '../services/room/room.repository';
 import { RoomGateway } from '../websocket/gateway/room.gateway';
-import { RoomController } from '../controllers/room.controller';
 
 @Module({
   imports: [ConfigModule, redisModule, jwtModule],
-  controllers: [RoomController],
+  controllers: [],
   providers: [RoomService, RoomsRepository, RoomGateway],
 })
 export class RoomsModule {}
