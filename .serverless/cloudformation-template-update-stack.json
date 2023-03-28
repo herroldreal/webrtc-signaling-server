@@ -190,7 +190,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z/websocket-test.zip"
+          "S3Key": "serverless/websocket-test/dev/1680039660831-2023-03-28T21:41:00.831Z/websocket-test.zip"
         },
         "Handler": "src/handlers/connect.handler",
         "Runtime": "nodejs12.x",
@@ -215,7 +215,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z/websocket-test.zip"
+          "S3Key": "serverless/websocket-test/dev/1680039660831-2023-03-28T21:41:00.831Z/websocket-test.zip"
         },
         "Handler": "src/handlers/disconnect.handler",
         "Runtime": "nodejs12.x",
@@ -240,7 +240,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z/websocket-test.zip"
+          "S3Key": "serverless/websocket-test/dev/1680039660831-2023-03-28T21:41:00.831Z/websocket-test.zip"
         },
         "Handler": "src/handlers/default.handler",
         "Runtime": "nodejs12.x",
@@ -265,7 +265,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z/websocket-test.zip"
+          "S3Key": "serverless/websocket-test/dev/1680039660831-2023-03-28T21:41:00.831Z/websocket-test.zip"
         },
         "Handler": "src/handlers/broadcast.handler",
         "Runtime": "nodejs12.x",
@@ -283,44 +283,44 @@
         "BroadcastHandlerLogGroup"
       ]
     },
-    "ConnectHandlerLambdaVersionSCZqxAP6vAeUZ5CjUttB1yawMLty4qlC4GoAQFUjKw": {
+    "ConnectHandlerLambdaVersionvja8XktAaUJBAsKbGXXELptTSZxrydy2Lo7Jx7L1o": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ConnectHandlerLambdaFunction"
         },
-        "CodeSha256": "mHZ1pPD2C7fa3RQRCIWgZOw1/AUHZ673PNxREJfL6Ss="
+        "CodeSha256": "16AKkrNuDDydDh7k7bkBSjXEDaJenB8UvjvXJozTIak="
       }
     },
-    "DisconnectHandlerLambdaVersionMP7J3HmCZqEINSBv02pb0UYDS7AluctjA0GbQZjdTA": {
+    "DisconnectHandlerLambdaVersionZYuC4qQjquQmdBJGTqOAocLprWnbVgKIjb7IWY7N0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DisconnectHandlerLambdaFunction"
         },
-        "CodeSha256": "mHZ1pPD2C7fa3RQRCIWgZOw1/AUHZ673PNxREJfL6Ss="
+        "CodeSha256": "16AKkrNuDDydDh7k7bkBSjXEDaJenB8UvjvXJozTIak="
       }
     },
-    "DefaultHandlerLambdaVersion0QpYGvyg4FR1956sUk6OjlbLi87vTKC053LWuTQ0W0": {
+    "DefaultHandlerLambdaVersiondkKzTDQLU6rG6bpEgIv9dBhWu8OGebdsNjwOlWbfk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DefaultHandlerLambdaFunction"
         },
-        "CodeSha256": "mHZ1pPD2C7fa3RQRCIWgZOw1/AUHZ673PNxREJfL6Ss="
+        "CodeSha256": "16AKkrNuDDydDh7k7bkBSjXEDaJenB8UvjvXJozTIak="
       }
     },
-    "BroadcastHandlerLambdaVersionGztQJM4LYp8Xho0wwCoH8KF7iwBUcqRR9NoYgaBYM": {
+    "BroadcastHandlerLambdaVersionw6C2mH6iMbtfjKywbFKdlDAx0J4f2RmuJSZDKmFtF8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "BroadcastHandlerLambdaFunction"
         },
-        "CodeSha256": "mHZ1pPD2C7fa3RQRCIWgZOw1/AUHZ673PNxREJfL6Ss="
+        "CodeSha256": "16AKkrNuDDydDh7k7bkBSjXEDaJenB8UvjvXJozTIak="
       }
     },
     "WebsocketsApi": {
@@ -653,7 +653,7 @@
     "ConnectHandlerLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ConnectHandlerLambdaVersionSCZqxAP6vAeUZ5CjUttB1yawMLty4qlC4GoAQFUjKw"
+        "Ref": "ConnectHandlerLambdaVersionvja8XktAaUJBAsKbGXXELptTSZxrydy2Lo7Jx7L1o"
       },
       "Export": {
         "Name": "sls-websocket-test-dev-ConnectHandlerLambdaFunctionQualifiedArn"
@@ -662,7 +662,7 @@
     "DisconnectHandlerLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DisconnectHandlerLambdaVersionMP7J3HmCZqEINSBv02pb0UYDS7AluctjA0GbQZjdTA"
+        "Ref": "DisconnectHandlerLambdaVersionZYuC4qQjquQmdBJGTqOAocLprWnbVgKIjb7IWY7N0"
       },
       "Export": {
         "Name": "sls-websocket-test-dev-DisconnectHandlerLambdaFunctionQualifiedArn"
@@ -671,7 +671,7 @@
     "DefaultHandlerLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DefaultHandlerLambdaVersion0QpYGvyg4FR1956sUk6OjlbLi87vTKC053LWuTQ0W0"
+        "Ref": "DefaultHandlerLambdaVersiondkKzTDQLU6rG6bpEgIv9dBhWu8OGebdsNjwOlWbfk"
       },
       "Export": {
         "Name": "sls-websocket-test-dev-DefaultHandlerLambdaFunctionQualifiedArn"
@@ -680,7 +680,7 @@
     "BroadcastHandlerLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "BroadcastHandlerLambdaVersionGztQJM4LYp8Xho0wwCoH8KF7iwBUcqRR9NoYgaBYM"
+        "Ref": "BroadcastHandlerLambdaVersionw6C2mH6iMbtfjKywbFKdlDAx0J4f2RmuJSZDKmFtF8"
       },
       "Export": {
         "Name": "sls-websocket-test-dev-BroadcastHandlerLambdaFunctionQualifiedArn"

@@ -1,11 +1,53 @@
-import { Handler, Context } from 'aws-lambda';
+import { Handler, Context, APIGatewayProxyWebsocketEventV2 } from 'aws-lambda';
+import {
+  ApiGatewayManagementApiClient,
+  PostToConnectionCommand,
+} from '@aws-sdk/client-apigatewaymanagementapi';
 
-export const handler: Handler = async (event: any, context: Context) => {
-  console.log(`Event => ${JSON.stringify(event, undefined, 2)}`);
-  console.log(`Context => ${JSON.stringify(context, undefined, 2)}`);
+interface StatusCodeResponse {
+  statusCode: 200 | 500;
+}
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify('Connected'),
-  };
+export const handler: Handler = async (
+  event: APIGatewayProxyWebsocketEventV2,
+  context: Context,
+): Promise<StatusCodeResponse> => {
+  const {
+    requestContext: { domainName, stage, connectionId },
+  } = event;
+
+  console.info('====================================');
+  console.info(`Connection ID: ${connectionId}`);
+  console.info('====================================');
+
+  const client = new ApiGatewayManagementApiClient({
+    region: 'us-east-1',
+    endpoint: `https://${domainName}/${stage}`,
+  });
+
+  try {
+    console.info('====================================');
+    console.info(
+      `Client Config: ${JSON.stringify(`https://${domainName}/${stage}`)}`,
+    );
+    console.info('====================================');
+
+    const encoder = new TextEncoder();
+    const postCmd = new PostToConnectionCommand({
+      ConnectionId: connectionId,
+      Data: encoder.encode('STATE'),
+    });
+
+    const result = await client.send(postCmd);
+    console.info('====================================');
+    console.info('Message : ', JSON.stringify(result, undefined, 2));
+    console.info('====================================');
+  } catch (err: unknown) {
+    console.info(err);
+    return { statusCode: 500 };
+  } finally {
+    client.destroy();
+  }
+
+  return { statusCode: 200 };
 };
