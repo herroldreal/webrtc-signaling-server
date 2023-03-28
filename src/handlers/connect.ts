@@ -1,10 +1,15 @@
 import {
-  Handler,
-  Context,
-  APIGatewayProxyWebsocketEventV2,
   APIGatewayProxyResult,
+  APIGatewayProxyWebsocketEventV2,
+  Context,
+  Handler,
 } from 'aws-lambda';
-import { InvocationRequest, Lambda } from '@aws-sdk/client-lambda';
+import {
+  InvocationRequest,
+  InvocationType,
+  LogType,
+  Lambda,
+} from '@aws-sdk/client-lambda';
 
 export const handler: Handler = async (
   event: APIGatewayProxyWebsocketEventV2,
@@ -16,8 +21,8 @@ export const handler: Handler = async (
   const encoder = new TextEncoder();
   const lambdaParamsInvocation: InvocationRequest = {
     FunctionName: 'websocket-test-dev-defaultHandler',
-    InvocationType: 'RequestResponse',
-    LogType: 'Tail',
+    InvocationType: InvocationType.Event,
+    LogType: LogType.Tail,
     Payload: encoder.encode(
       JSON.stringify({
         connectionId: event.requestContext.connectionId,
