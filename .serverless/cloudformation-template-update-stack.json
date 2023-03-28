@@ -190,7 +190,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/websocket-test/dev/1679670291690-2023-03-24T15:04:51.690Z/websocket-test.zip"
+          "S3Key": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z/websocket-test.zip"
         },
         "Handler": "_optimize/websocket-test-dev-connectHandler/src/handlers/connect.handler",
         "Runtime": "nodejs12.x",
@@ -215,7 +215,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/websocket-test/dev/1679670291690-2023-03-24T15:04:51.690Z/websocket-test.zip"
+          "S3Key": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z/websocket-test.zip"
         },
         "Handler": "_optimize/websocket-test-dev-disconnectHandler/src/handlers/disconnect.handler",
         "Runtime": "nodejs12.x",
@@ -240,7 +240,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/websocket-test/dev/1679670291690-2023-03-24T15:04:51.690Z/websocket-test.zip"
+          "S3Key": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z/websocket-test.zip"
         },
         "Handler": "_optimize/websocket-test-dev-defaultHandler/src/handlers/default.handler",
         "Runtime": "nodejs12.x",
@@ -265,7 +265,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/websocket-test/dev/1679670291690-2023-03-24T15:04:51.690Z/websocket-test.zip"
+          "S3Key": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z/websocket-test.zip"
         },
         "Handler": "_optimize/websocket-test-dev-broadcastHandler/src/handlers/broadcast.handler",
         "Runtime": "nodejs12.x",
