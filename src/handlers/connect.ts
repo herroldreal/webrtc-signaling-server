@@ -25,7 +25,9 @@ export const handler: Handler = async (
     LogType: LogType.Tail,
     Payload: encoder.encode(
       JSON.stringify({
-        connectionId: event.requestContext.connectionId,
+        body: {
+          connectionId: event.requestContext.connectionId,
+        },
       }),
     ),
   };
