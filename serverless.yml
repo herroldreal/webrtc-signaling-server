@@ -3,13 +3,15 @@ service: websocket-test
 custom:
   webpack:
     webpackConfig: 'webpack.config.js' # Name of webpack configuration file
-    includeModules: false # Node modules configuration for packaging
+    includeModules:
+      forceExclude:
+        - aws-sdk
     packager: 'npm' # Packager that will be used to package your external modules
     excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
 
 plugins:
   - serverless-webpack
-  - serverless-plugin-optimize
+#  - serverless-plugin-optimize
   - serverless-offline
 
 provider:

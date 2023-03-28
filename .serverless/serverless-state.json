@@ -204,9 +204,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z/websocket-test.zip"
+                "S3Key": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z/websocket-test.zip"
               },
-              "Handler": "_optimize/websocket-test-dev-connectHandler/src/handlers/connect.handler",
+              "Handler": "src/handlers/connect.handler",
               "Runtime": "nodejs12.x",
               "FunctionName": "websocket-test-dev-connectHandler",
               "MemorySize": 1024,
@@ -229,9 +229,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z/websocket-test.zip"
+                "S3Key": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z/websocket-test.zip"
               },
-              "Handler": "_optimize/websocket-test-dev-disconnectHandler/src/handlers/disconnect.handler",
+              "Handler": "src/handlers/disconnect.handler",
               "Runtime": "nodejs12.x",
               "FunctionName": "websocket-test-dev-disconnectHandler",
               "MemorySize": 1024,
@@ -254,9 +254,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z/websocket-test.zip"
+                "S3Key": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z/websocket-test.zip"
               },
-              "Handler": "_optimize/websocket-test-dev-defaultHandler/src/handlers/default.handler",
+              "Handler": "src/handlers/default.handler",
               "Runtime": "nodejs12.x",
               "FunctionName": "websocket-test-dev-defaultHandler",
               "MemorySize": 1024,
@@ -279,9 +279,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z/websocket-test.zip"
+                "S3Key": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z/websocket-test.zip"
               },
-              "Handler": "_optimize/websocket-test-dev-broadcastHandler/src/handlers/broadcast.handler",
+              "Handler": "src/handlers/broadcast.handler",
               "Runtime": "nodejs12.x",
               "FunctionName": "websocket-test-dev-broadcastHandler",
               "MemorySize": 1024,
@@ -297,44 +297,44 @@
               "BroadcastHandlerLogGroup"
             ]
           },
-          "ConnectHandlerLambdaVersion6KS5Vl8sb8nCnHSNwE5PGKuC1eQ9vNuYju29nAB9Zc": {
+          "ConnectHandlerLambdaVersionSCZqxAP6vAeUZ5CjUttB1yawMLty4qlC4GoAQFUjKw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ConnectHandlerLambdaFunction"
               },
-              "CodeSha256": "pP3wTIhJhOph+aoJO+Fqlm0iN0cQO+/14WTpdCmwUk8="
+              "CodeSha256": "mHZ1pPD2C7fa3RQRCIWgZOw1/AUHZ673PNxREJfL6Ss="
             }
           },
-          "DisconnectHandlerLambdaVersionv4Xoyyz8NrjHmD6sUNOdZTkJFQRJot9M0ZGJOAZU": {
+          "DisconnectHandlerLambdaVersionMP7J3HmCZqEINSBv02pb0UYDS7AluctjA0GbQZjdTA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DisconnectHandlerLambdaFunction"
               },
-              "CodeSha256": "pP3wTIhJhOph+aoJO+Fqlm0iN0cQO+/14WTpdCmwUk8="
+              "CodeSha256": "mHZ1pPD2C7fa3RQRCIWgZOw1/AUHZ673PNxREJfL6Ss="
             }
           },
-          "DefaultHandlerLambdaVersionbAVnKdVIFPKkaBAGIHmlfNxqQvnsS4kzOTzIo7cnaE": {
+          "DefaultHandlerLambdaVersion0QpYGvyg4FR1956sUk6OjlbLi87vTKC053LWuTQ0W0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DefaultHandlerLambdaFunction"
               },
-              "CodeSha256": "pP3wTIhJhOph+aoJO+Fqlm0iN0cQO+/14WTpdCmwUk8="
+              "CodeSha256": "mHZ1pPD2C7fa3RQRCIWgZOw1/AUHZ673PNxREJfL6Ss="
             }
           },
-          "BroadcastHandlerLambdaVersionkmJD9SK6TSC7GJT29uIThI84OUmHOlbwdoME4AEBqg": {
+          "BroadcastHandlerLambdaVersionGztQJM4LYp8Xho0wwCoH8KF7iwBUcqRR9NoYgaBYM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "BroadcastHandlerLambdaFunction"
               },
-              "CodeSha256": "pP3wTIhJhOph+aoJO+Fqlm0iN0cQO+/14WTpdCmwUk8="
+              "CodeSha256": "mHZ1pPD2C7fa3RQRCIWgZOw1/AUHZ673PNxREJfL6Ss="
             }
           },
           "WebsocketsApi": {
@@ -667,7 +667,7 @@
           "ConnectHandlerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ConnectHandlerLambdaVersion6KS5Vl8sb8nCnHSNwE5PGKuC1eQ9vNuYju29nAB9Zc"
+              "Ref": "ConnectHandlerLambdaVersionSCZqxAP6vAeUZ5CjUttB1yawMLty4qlC4GoAQFUjKw"
             },
             "Export": {
               "Name": "sls-websocket-test-dev-ConnectHandlerLambdaFunctionQualifiedArn"
@@ -676,7 +676,7 @@
           "DisconnectHandlerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DisconnectHandlerLambdaVersionv4Xoyyz8NrjHmD6sUNOdZTkJFQRJot9M0ZGJOAZU"
+              "Ref": "DisconnectHandlerLambdaVersionMP7J3HmCZqEINSBv02pb0UYDS7AluctjA0GbQZjdTA"
             },
             "Export": {
               "Name": "sls-websocket-test-dev-DisconnectHandlerLambdaFunctionQualifiedArn"
@@ -685,7 +685,7 @@
           "DefaultHandlerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DefaultHandlerLambdaVersionbAVnKdVIFPKkaBAGIHmlfNxqQvnsS4kzOTzIo7cnaE"
+              "Ref": "DefaultHandlerLambdaVersion0QpYGvyg4FR1956sUk6OjlbLi87vTKC053LWuTQ0W0"
             },
             "Export": {
               "Name": "sls-websocket-test-dev-DefaultHandlerLambdaFunctionQualifiedArn"
@@ -694,7 +694,7 @@
           "BroadcastHandlerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "BroadcastHandlerLambdaVersionkmJD9SK6TSC7GJT29uIThI84OUmHOlbwdoME4AEBqg"
+              "Ref": "BroadcastHandlerLambdaVersionGztQJM4LYp8Xho0wwCoH8KF7iwBUcqRR9NoYgaBYM"
             },
             "Export": {
               "Name": "sls-websocket-test-dev-BroadcastHandlerLambdaFunctionQualifiedArn"
@@ -815,20 +815,23 @@
     "custom": {
       "webpack": {
         "webpackConfig": "webpack.config.js",
-        "includeModules": false,
+        "includeModules": {
+          "forceExclude": [
+            "aws-sdk"
+          ]
+        },
         "packager": "npm",
         "excludeFiles": "src/**/*.test.js"
       }
     },
     "plugins": [
       "serverless-webpack",
-      "serverless-plugin-optimize",
       "serverless-offline"
     ],
     "pluginsData": {},
     "functions": {
       "connectHandler": {
-        "handler": "_optimize/websocket-test-dev-connectHandler/src/handlers/connect.handler",
+        "handler": "src/handlers/connect.handler",
         "events": [
           {
             "websocket": {
@@ -838,21 +841,16 @@
         ],
         "name": "websocket-test-dev-connectHandler",
         "package": {
-          "exclude": [
-            "**"
-          ],
-          "include": [
-            "_optimize/websocket-test-dev-connectHandler/**"
-          ]
+          "artifact": ".serverless/websocket-test.zip"
         },
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "ConnectHandlerLambdaVersion6KS5Vl8sb8nCnHSNwE5PGKuC1eQ9vNuYju29nAB9Zc"
+        "versionLogicalId": "ConnectHandlerLambdaVersionSCZqxAP6vAeUZ5CjUttB1yawMLty4qlC4GoAQFUjKw"
       },
       "disconnectHandler": {
-        "handler": "_optimize/websocket-test-dev-disconnectHandler/src/handlers/disconnect.handler",
+        "handler": "src/handlers/disconnect.handler",
         "events": [
           {
             "websocket": {
@@ -862,21 +860,16 @@
         ],
         "name": "websocket-test-dev-disconnectHandler",
         "package": {
-          "exclude": [
-            "**"
-          ],
-          "include": [
-            "_optimize/websocket-test-dev-disconnectHandler/**"
-          ]
+          "artifact": ".serverless/websocket-test.zip"
         },
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "DisconnectHandlerLambdaVersionv4Xoyyz8NrjHmD6sUNOdZTkJFQRJot9M0ZGJOAZU"
+        "versionLogicalId": "DisconnectHandlerLambdaVersionMP7J3HmCZqEINSBv02pb0UYDS7AluctjA0GbQZjdTA"
       },
       "defaultHandler": {
-        "handler": "_optimize/websocket-test-dev-defaultHandler/src/handlers/default.handler",
+        "handler": "src/handlers/default.handler",
         "events": [
           {
             "websocket": {
@@ -886,21 +879,16 @@
         ],
         "name": "websocket-test-dev-defaultHandler",
         "package": {
-          "exclude": [
-            "**"
-          ],
-          "include": [
-            "_optimize/websocket-test-dev-defaultHandler/**"
-          ]
+          "artifact": ".serverless/websocket-test.zip"
         },
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "DefaultHandlerLambdaVersionbAVnKdVIFPKkaBAGIHmlfNxqQvnsS4kzOTzIo7cnaE"
+        "versionLogicalId": "DefaultHandlerLambdaVersion0QpYGvyg4FR1956sUk6OjlbLi87vTKC053LWuTQ0W0"
       },
       "broadcastHandler": {
-        "handler": "_optimize/websocket-test-dev-broadcastHandler/src/handlers/broadcast.handler",
+        "handler": "src/handlers/broadcast.handler",
         "events": [
           {
             "websocket": {
@@ -910,18 +898,13 @@
         ],
         "name": "websocket-test-dev-broadcastHandler",
         "package": {
-          "exclude": [
-            "**"
-          ],
-          "include": [
-            "_optimize/websocket-test-dev-broadcastHandler/**"
-          ]
+          "artifact": ".serverless/websocket-test.zip"
         },
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "BroadcastHandlerLambdaVersionkmJD9SK6TSC7GJT29uIThI84OUmHOlbwdoME4AEBqg"
+        "versionLogicalId": "BroadcastHandlerLambdaVersionGztQJM4LYp8Xho0wwCoH8KF7iwBUcqRR9NoYgaBYM"
       }
     },
     "configValidationMode": "warn",
@@ -942,11 +925,10 @@
       }
     },
     "layers": {},
-    "isDashboardMonitoringPreconfigured": false,
-    "artifact": "/home/herrold/Desktop/Personal/Tech/Learning Path/webrtc-backend/.serverless/websocket-test.zip"
+    "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/websocket-test/dev/1679671660573-2023-03-24T15:27:40.573Z",
-    "artifact": "websocket-test.zip"
+    "artifactDirectoryName": "serverless/websocket-test/dev/1680033378980-2023-03-28T19:56:18.980Z",
+    "artifact": ""
   }
 }
