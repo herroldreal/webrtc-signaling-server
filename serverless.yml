@@ -3,9 +3,7 @@ service: websocket-test
 custom:
   webpack:
     webpackConfig: 'webpack.config.js' # Name of webpack configuration file
-    includeModules:
-      forceExclude:
-        - aws-sdk
+    includeModules: false
     packager: 'npm' # Packager that will be used to package your external modules
     excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
 
@@ -16,7 +14,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs16.x
   configValidationMode: error
   environment:
 #    CONNECTION_DB_TABLE: ${self:resources.Resources.MessageTable.Properties.TableName}
@@ -51,6 +49,8 @@ functions:
     events:
       - websocket:
           route: $default
+      - lambda:
+
   broadcastHandler:
     handler: src/handlers/broadcast.handler
     events:

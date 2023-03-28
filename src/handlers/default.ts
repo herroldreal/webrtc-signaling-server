@@ -12,8 +12,10 @@ export const handler: Handler = async (
   event: APIGatewayProxyWebsocketEventV2,
   context: Context,
 ): Promise<StatusCodeResponse> => {
+  console.info(`Event Body => ${event.body}`);
+  const connectionId = JSON.parse(event.body).connectionId;
   const {
-    requestContext: { domainName, stage, connectionId },
+    requestContext: { domainName, stage },
   } = event;
 
   console.info('====================================');

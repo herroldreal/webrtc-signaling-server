@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-apigatewaymanagementapi": "3.301.0",
+    "@aws-sdk/client-lambda": "3.301.0",
     "@nestjs/common": "^9.3.10",
     "@nestjs/config": "2.3.1",
     "@nestjs/core": "^9.3.10",
