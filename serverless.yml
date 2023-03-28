@@ -16,7 +16,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   configValidationMode: error
   environment:
 #    CONNECTION_DB_TABLE: ${self:resources.Resources.MessageTable.Properties.TableName}

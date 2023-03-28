@@ -1,19 +1,55 @@
+import { Handler, Context, APIGatewayProxyWebsocketEventV2 } from 'aws-lambda';
 import {
-  Handler,
-  Context,
-  APIGatewayProxyResult,
-  APIGatewayProxyWebsocketEventV2,
-} from 'aws-lambda';
+  ApiGatewayManagementApiClient,
+  PostToConnectionCommand,
+} from '@aws-sdk/client-apigatewaymanagementapi';
+
+interface StatusCodeResponse {
+  statusCode: 200 | 500;
+}
 
 export const handler: Handler = async (
   event: APIGatewayProxyWebsocketEventV2,
   context: Context,
-): Promise<APIGatewayProxyResult> => {
-  console.log(`Event => ${JSON.stringify(event, undefined, 2)}`);
-  console.log(`Context => ${JSON.stringify(context, undefined, 2)}`);
+): Promise<StatusCodeResponse> => {
+  const {
+    requestContext: { domainName, stage, connectionId },
+  } = event;
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify('Default'),
-  };
+  console.info('====================================');
+  console.info(`Connection ID: ${connectionId}`);
+  console.info('====================================');
+
+  const client = new ApiGatewayManagementApiClient({
+    region: 'us-east-1',
+    endpoint: process.env.IS_OFFLINE
+      ? 'http://localhost:3001'
+      : `https://${domainName}/${stage}`,
+  });
+
+  try {
+    console.info('====================================');
+    console.info(
+      `Client Config: ${JSON.stringify(`https://${domainName}/${stage}`)}`,
+    );
+    console.info('====================================');
+
+    const encoder = new TextEncoder();
+    const postCmd = new PostToConnectionCommand({
+      ConnectionId: connectionId,
+      Data: encoder.encode('STATE'),
+    });
+
+    const result = await client.send(postCmd);
+    console.info('====================================');
+    console.info('Message : ', JSON.stringify(result, undefined, 2));
+    console.info('====================================');
+  } catch (err: unknown) {
+    console.info(err);
+    return { statusCode: 500 };
+  } finally {
+    client.destroy();
+  }
+
+  return { statusCode: 200 };
 };
