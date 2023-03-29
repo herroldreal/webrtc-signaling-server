@@ -30,10 +30,6 @@ export const handler: Handler = async (
   });
 
   try {
-    console.info('====================================');
-    console.info(`Client Config: ${endpoint}`);
-    console.info('====================================');
-
     const encoder = new TextEncoder();
     const postCmd = new PostToConnectionCommand({
       ConnectionId: connectionId,

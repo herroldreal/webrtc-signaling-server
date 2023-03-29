@@ -60,12 +60,21 @@ functions:
       - websocket:
           route: $default
       - lambda:
-
-  broadcastHandler:
-    handler: src/handlers/broadcast.handler
+  offerHandler:
+    handler: src/handlers/commands.handler
     events:
       - websocket:
-          route: broadcastMessage
+          route: offer
+  answerHandler:
+    handler: src/handlers/commands.handler
+    events:
+      - websocket:
+          route: answer
+  iceHandler:
+    handler: src/handlers/commands.handler
+    events:
+      - websocket:
+          route: ice
 
 #resources:
 #  Resources:
