@@ -16,19 +16,17 @@ export const handler: Handler = async (
   console.info(`Context => ${JSON.stringify(context, undefined, 2)}`);
 
   const connectionId = JSON.parse(JSON.stringify(event.body)).connectionId;
-  const {
-    requestContext: { domainName, stage },
-  } = event;
+  const endpoint = JSON.parse(JSON.stringify(event.body)).endpoint;
 
   console.info('====================================');
   console.info(`Connection ID: ${connectionId}`);
   console.info('====================================');
+  console.info(`Endpoint: ${endpoint}`);
+  console.info('====================================');
 
   const client = new ApiGatewayManagementApiClient({
     region: 'us-east-1',
-    endpoint: process.env.IS_OFFLINE
-      ? 'http://localhost:3001'
-      : `https://${domainName}/${stage}`,
+    endpoint: process.env.IS_OFFLINE ? 'http://localhost:3001' : `${endpoint}`,
   });
 
   try {

@@ -18,6 +18,10 @@ export const handler: Handler = async (
   const lambda = new Lambda({
     region: 'us-east-1',
   });
+  const {
+    requestContext: { domainName, stage },
+  } = event;
+
   const encoder = new TextEncoder();
   const lambdaParamsInvocation: InvocationRequest = {
     FunctionName: 'websocket-test-dev-defaultHandler',
@@ -27,6 +31,7 @@ export const handler: Handler = async (
       JSON.stringify({
         body: {
           connectionId: event.requestContext.connectionId,
+          endpoint: `https://${domainName}/${stage}`,
         },
       }),
     ),
