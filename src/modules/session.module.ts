@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { jwtModule, redisModule } from './module.config';
-import { SignalingGateway } from '../websocket/gateway/signaling.gateway';
+import { SessionService } from '../services/database/session.service';
+import { SessionRepository } from '../repository/session.repository';
 
 @Module({
   imports: [ConfigModule, redisModule, jwtModule],
   controllers: [],
-  providers: [SignalingGateway],
+  providers: [SessionService, SessionRepository],
 })
-export class SignalingModule {}
+export class SessionModule {}

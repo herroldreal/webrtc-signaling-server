@@ -1,18 +1,26 @@
 service: websocket-test
 
 custom:
+  tableName: SessionTable
+  dynamodb:
+    start:
+      port: 5000
+      inMemory: true
+      migrate: true
+    stages: dev
   webpack:
-    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    webpackConfig: 'webpack.config.js'
     includeModules:
       forceExclude:
         - "aws-sdk"
         - "@aws-sdk"
-    packager: 'npm' # Packager that will be used to package your external modules
-    excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
+    packager: 'npm'
+    excludeFiles: src/**/*.test.js
 
 plugins:
   - serverless-webpack
-#  - serverless-plugin-optimize
+  #  - serverless-plugin-optimize
+  - serverless-dynamodb-local
   - serverless-offline
 
 provider:
@@ -24,24 +32,19 @@ provider:
       Action:
         - lambda:InvokeFunction
         - lambda:InvokeAsync
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
       Resource: "*"
-
-#  environment:
-#    CONNECTION_DB_TABLE: ${self:resources.Resources.MessageTable.Properties.TableName}
-#  iamRoleStatements:
-#    - Effect: Allow
-#      Action:
-#        - "dynamodb:PutItem"
-#        - "dynamodb:GetItem"
-#        - "dynamodb:DeleteItem"
-#        - "dynamodb:Scan"
-#      Resource:
-#        - Fn::GetAtt: [websocket-Table, Arn]
-#    - Effect: Allow
-#      Action:
-#        - "execute-api:ManageConnections"
-#      Resource:
-#        - "arn:aws:execute-api:*:*:**/@connections/*"
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    NODE_OPTIONS: --enable-source-maps --stack-trace-limit=1000
+    AWS_REGION: us-east-1
+    SESSION_TABLE_NAME: ${self:custom.tableName}
 
 functions:
   connectHandler:
@@ -59,33 +62,21 @@ functions:
     events:
       - websocket:
           route: $default
-      - lambda:
-  offerHandler:
-    handler: src/handlers/commands.handler
-    events:
-      - websocket:
-          route: offer
-  answerHandler:
-    handler: src/handlers/commands.handler
-    events:
-      - websocket:
-          route: answer
-  iceHandler:
-    handler: src/handlers/commands.handler
-    events:
-      - websocket:
-          route: ice
 
-#resources:
-#  Resources:
-#    MessageTable:
-#      Type: "AWS::DynamoDB::Table"
-#      Properties:
-#        AttributeDefinitions:
-#          - AttributeName: "connectionId"
-#            AttributeType: "S"
-#        KeySchema:
-#          - AttributeName: "connectionId"
-#            KeyType: "HASH"
-#        BillingMode: PAY_PER_REQUEST
-#        TableName: "AppConnectionTable"
+resources:
+  Resources:
+    sessionTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: connectionId
+            AttributeType: S
+          - AttributeName: state
+            AttributeType: S
+        KeySchema:
+          - AttributeName: connectionId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

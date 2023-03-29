@@ -1,5 +1,4 @@
 export default () => ({
-  port: parseInt(process.env.PORT, 10) || 3000,
   redis: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
@@ -10,11 +9,7 @@ export default () => ({
   auth: {
     secret: process.env.JWT_SECRET,
   },
-  rtc: {
-    ttl: process.env.RTC_TTL,
-  },
   database: {
-    host: process.env.DATABASE_HOST,
-    port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+    table: process.env.SESSION_TABLE_NAME,
   },
 });
