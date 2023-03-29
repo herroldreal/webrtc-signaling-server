@@ -37,7 +37,7 @@ export const handler: Handler = async (
     const encoder = new TextEncoder();
     const postCmd = new PostToConnectionCommand({
       ConnectionId: connectionId,
-      Data: encoder.encode('STATE'),
+      Data: encoder.encode('STATE Ready'),
     });
 
     const result = await client.send(postCmd);
