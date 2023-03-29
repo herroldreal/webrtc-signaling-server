@@ -31,9 +31,7 @@ export const handler: Handler = async (
 
   try {
     console.info('====================================');
-    console.info(
-      `Client Config: ${JSON.stringify(`https://${domainName}/${stage}`)}`,
-    );
+    console.info(`Client Config: ${endpoint}`);
     console.info('====================================');
 
     const encoder = new TextEncoder();
