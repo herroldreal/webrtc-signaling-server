@@ -8,6 +8,7 @@ import {
   DeleteCommand,
   DeleteCommandInput,
   DeleteCommandOutput,
+  DynamoDBDocumentClient,
   ExecuteStatementCommand,
   ExecuteStatementCommandInput,
   ExecuteStatementCommandOutput,
@@ -30,29 +31,43 @@ import {
   UpdateCommandInput,
   UpdateCommandOutput,
 } from '@aws-sdk/lib-dynamodb';
-import { DbClientsInstance } from './dbClients';
-import { Logger } from '@nestjs/common';
-import { Pricing } from 'aws-sdk';
+import { Logger } from './logger';
+import { IDynamoStore } from './dynamoStore.interface';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
-class DbOps {
-  private readonly logger = new Logger(DbOps.name);
-  private static instance: DbOps;
+export class DynamoStore implements IDynamoStore {
+  private readonly logger = new Logger(DynamoStore.name);
+  public dbClient: DynamoDBClient;
+  public dbDocumentClient: DynamoDBDocumentClient;
 
-  private constructor() {
-    console.log('DbOps init');
-    if (DbOps.instance) throw new Error('Error - Already initialized');
+  init() {
+    const marshallOptions = {
+      convertEmptyValues: false,
+      removeUndefinedValues: false,
+      convertClassInstanceToMap: false,
+    };
+    const unmarshallOptions = {
+      wrapNumbers: false,
+    };
+    const translateConfig = { marshallOptions, unmarshallOptions };
+    this.dbClient = new DynamoDBClient({
+      region: process.env.AWS_REGION,
+      endpoint: process.env.DB_ENDPOINT,
+    });
+    this.dbDocumentClient = DynamoDBDocumentClient.from(
+      this.dbClient,
+      translateConfig,
+    );
   }
 
-  static getInstance(): DbOps {
-    DbOps.instance = DbOps.instance || new DbOps();
-    return DbOps.instance;
+  destroy() {
+    this.dbDocumentClient.destroy();
+    this.dbClient.destroy();
   }
 
   put = async (params: PutCommandInput): Promise<PutCommandOutput> => {
     try {
-      return await DbClientsInstance.dbDocumentClient.send(
-        new PutCommand(params),
-      );
+      return await this.dbDocumentClient.send(new PutCommand(params));
     } catch (e) {
       this.logger.error(e);
       return e;
@@ -61,9 +76,7 @@ class DbOps {
 
   update = async (params: UpdateCommandInput): Promise<UpdateCommandOutput> => {
     try {
-      return await DbClientsInstance.dbDocumentClient.send(
-        new UpdateCommand(params),
-      );
+      return await this.dbDocumentClient.send(new UpdateCommand(params));
     } catch (e) {
       this.logger.error(e);
       return e;
@@ -72,7 +85,7 @@ class DbOps {
 
   scan = async (params: ScanCommandInput): Promise<ScanCommandOutput> => {
     try {
-      return DbClientsInstance.dbDocumentClient.send(new ScanCommand(params));
+      return this.dbDocumentClient.send(new ScanCommand(params));
     } catch (e) {
       this.logger.error(e);
       return e;
@@ -81,7 +94,7 @@ class DbOps {
 
   query = async (params: QueryCommandInput): Promise<QueryCommandOutput> => {
     try {
-      return DbClientsInstance.dbDocumentClient.send(new QueryCommand(params));
+      return this.dbDocumentClient.send(new QueryCommand(params));
     } catch (e) {
       this.logger.error(e);
       return e;
@@ -90,7 +103,7 @@ class DbOps {
 
   get = async (params: GetCommandInput): Promise<GetCommandOutput> => {
     try {
-      return DbClientsInstance.dbClient.send(new GetCommand(params));
+      return this.dbClient.send(new GetCommand(params));
     } catch (e) {
       this.logger.error(e);
       return e;
@@ -101,7 +114,7 @@ class DbOps {
     params: BatchGetCommandInput,
   ): Promise<BatchGetCommandOutput> => {
     try {
-      return DbClientsInstance.dbClient.send(new BatchGetCommand(params));
+      return this.dbClient.send(new BatchGetCommand(params));
     } catch (e) {
       this.logger.error(e);
       return e;
@@ -112,9 +125,7 @@ class DbOps {
     params: ExecuteStatementCommandInput,
   ): Promise<ExecuteStatementCommandOutput> => {
     try {
-      return DbClientsInstance.dbClient.send(
-        new ExecuteStatementCommand(params),
-      );
+      return this.dbClient.send(new ExecuteStatementCommand(params));
     } catch (e) {
       this.logger.error(e);
       return e;
@@ -125,7 +136,7 @@ class DbOps {
     params: ExecuteTransactionCommandInput,
   ): Promise<ExecuteTransactionCommandOutput> => {
     try {
-      return await DbClientsInstance.dbDocumentClient.send(
+      return await this.dbDocumentClient.send(
         new ExecuteTransactionCommand(params),
       );
     } catch (e) {
@@ -138,7 +149,7 @@ class DbOps {
     params: BatchExecuteStatementCommandInput,
   ): Promise<BatchExecuteStatementCommandOutput> => {
     try {
-      return await DbClientsInstance.dbDocumentClient.send(
+      return await this.dbDocumentClient.send(
         new BatchExecuteStatementCommand(params),
       );
     } catch (e) {
@@ -149,14 +160,10 @@ class DbOps {
 
   delete = async (params: DeleteCommandInput): Promise<DeleteCommandOutput> => {
     try {
-      return await DbClientsInstance.dbDocumentClient.send(
-        new DeleteCommand(params),
-      );
+      return await this.dbDocumentClient.send(new DeleteCommand(params));
     } catch (e) {
       this.logger.error(e);
       return e;
     }
   };
 }
-
-export const DbDataOpsInstance = DbOps.getInstance();

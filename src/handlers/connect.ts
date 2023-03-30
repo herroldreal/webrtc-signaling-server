@@ -19,7 +19,7 @@ export const handler: Handler = async (
     region: 'us-east-1',
   });
   const {
-    requestContext: { domainName, stage },
+    requestContext: { domainName, stage, eventType },
   } = event;
 
   const encoder = new TextEncoder();

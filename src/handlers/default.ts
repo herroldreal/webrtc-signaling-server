@@ -1,50 +1,31 @@
-import { Handler, Context, APIGatewayProxyWebsocketEventV2 } from 'aws-lambda';
+import 'reflect-metadata';
+import { Handler, APIGatewayProxyWebsocketEventV2 } from 'aws-lambda';
 import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from '@aws-sdk/client-apigatewaymanagementapi';
+import { diContainer } from '../di/container.di';
+import { SessionService } from '../services/database/session.service';
 
 interface StatusCodeResponse {
   statusCode: 200 | 500;
 }
 
 let wsClient: ApiGatewayManagementApiClient;
+const sessionService: SessionService = diContainer.resolve('ISessionService');
 
 export const handler: Handler = async (
   event: APIGatewayProxyWebsocketEventV2,
-  context: Context,
 ): Promise<StatusCodeResponse> => {
-  const { connectionId, endpoint, command } = JSON.parse(
-    JSON.stringify(event.body),
+  console.log('=========================================');
+  console.log(
+    `Event => ${event.requestContext.eventType} - Route key => ${event.requestContext.routeKey}`,
   );
+  console.log('=========================================');
+
+  const { connectionId, endpoint } = JSON.parse(JSON.stringify(event.body));
   buildWsClient(endpoint);
-
-  console.info('====================================');
-  console.info(`Connection ID: ${connectionId}`);
-  console.info('====================================');
-  console.info(`Endpoint: ${endpoint}`);
-  console.info('====================================');
-  console.info(`Command: ${command}`);
-  console.info('====================================');
-
-  switch (command.toLowerCase()) {
-    case 'state': {
-      await handleState(connectionId);
-      break;
-    }
-    case 'offer': {
-      await handleOffer(connectionId);
-      break;
-    }
-    case 'answer': {
-      await handleAnswer(connectionId);
-      break;
-    }
-    case 'ice': {
-      await handleIce(connectionId);
-      break;
-    }
-  }
+  await handleState(connectionId);
 
   return { statusCode: 200 };
 };
@@ -65,37 +46,13 @@ async function handleState(connectionId: string) {
     });
 
     const result = await wsClient.send(postCmd);
-    console.info('====================================');
-    console.info('Message : ', JSON.stringify(result, undefined, 2));
-    console.info('====================================');
-  } catch (err: unknown) {
-    console.info(err);
-    return { statusCode: 500 };
-  } finally {
-    wsClient.destroy();
-  }
-}
-
-async function handleAnswer(connectionId: string) {
-  return connectionId;
-}
-
-async function handleIce(connectionId: string) {
-  return connectionId;
-}
-
-async function handleOffer(connectionId: string) {
-  try {
-    const encoder = new TextEncoder();
-    const postCmd = new PostToConnectionCommand({
-      ConnectionId: connectionId,
-      Data: encoder.encode('OFFER Ready'),
-    });
-
-    const result = await wsClient.send(postCmd);
-    console.info('====================================');
-    console.info('Message : ', JSON.stringify(result, undefined, 2));
-    console.info('====================================');
+    if (result.$metadata.httpStatusCode === 200) {
+      // Store connectionId and status in db
+      await sessionService.createSession({
+        connectionId: connectionId,
+        state: 'Ready',
+      });
+    }
   } catch (err: unknown) {
     console.info(err);
     return { statusCode: 500 };

@@ -1,0 +1,17 @@
+process.env.ENVIRONMENT = 'testing';
+process.env.AIRBYTE_API_URL = 'http://localhost:8000/api/v1';
+process.env.STAGE = 'development';
+process.env.WIZARD_API_URL = 'https://faker-wizard-api.com/content-management/api/v1';
+process.env.WIZARD_IAM_API_URL = 'https://faker.moonshot.com/iam/api/v1';
+process.env.WIZARD_IAM_USERNAME = 'wizard-cms';
+process.env.WIZARD_IAM_PASSWORD = 'password';
+process.env.AIRBYTE_USERNAME = 'airbyte';
+process.env.AIRBYTE_PASSWORD = 'airbyte-password';
+process.env.VIMEO_ASSETS_BUCKET = 'vimeo-assets-bucket';
+process.env.FULL_ASSETS_BUCKET = 'full-assets-bucket';
+process.env.AWS_DEFAULT_REGION = 'sa-east-1';
+process.env.BUCKET_NAME = 'bucket-test';
+process.env.MONGO_URI = 'mongodb://localhost:27017';
+process.env.MONGO_DB = 'sns-test';
+process.env.SNS_TOPIC_ARN = 'arn:aws:sns:sa-east-1:000000000001:sns-extendedclient-topic-test';
+process.env.SNS_RETRY_COUNT = 3;

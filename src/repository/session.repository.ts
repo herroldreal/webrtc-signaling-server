@@ -1,16 +1,18 @@
-import { Injectable, Logger } from '@nestjs/common';
 import { Session } from '../models/session.model';
 import { PutCommandInput } from '@aws-sdk/lib-dynamodb';
-import { ConfigService } from '@nestjs/config';
-import { DbDataOpsInstance } from '../utils/dbOps';
+import { DynamoStore } from '../utils/dynamostore';
+import { Logger } from '../utils/logger';
+import { inject, injectable } from 'tsyringe';
+import { ISessionRepository } from './sessionrepository.interface';
+import { IDynamoStore } from '../utils/dynamoStore.interface';
 
-@Injectable()
-export class SessionRepository {
-  private readonly logger = new Logger(SessionRepository.name);
+@injectable()
+export class SessionRepository implements ISessionRepository {
   private readonly tableName: string;
+  private readonly logger = new Logger(SessionRepository.name);
 
-  constructor(private readonly configService: ConfigService) {
-    this.tableName = configService.get('database.table');
+  constructor(@inject('IDynamoStore') private db: IDynamoStore) {
+    this.tableName = process.env.SESSION_TABLE_NAME;
   }
 
   async create(session: Session): Promise<boolean> {
@@ -20,10 +22,8 @@ export class SessionRepository {
         TableName: this.tableName,
         Item: session,
       };
-      const data = await DbDataOpsInstance.put(params);
-      this.logger.verbose(
-        `Put result => ${JSON.stringify(data, undefined, 2)}`,
-      );
+      const data = await this.db.put(params);
+      this.logger.info(`Put result => ${JSON.stringify(data, undefined, 2)}`);
       return data.$metadata.httpStatusCode === 200;
     } catch (e) {
       this.logger.error(e);

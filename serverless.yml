@@ -1,4 +1,5 @@
 service: websocket-test
+frameworkVersion: 4
 
 custom:
   tableName: SessionTable
@@ -20,13 +21,12 @@ custom:
 plugins:
   - serverless-webpack
   #  - serverless-plugin-optimize
-  - serverless-dynamodb-local
+  # - serverless-dynamodb-local
   - serverless-offline
 
 provider:
   name: aws
   runtime: nodejs14.x
-  configValidationMode: erro
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -43,7 +43,6 @@ provider:
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     NODE_OPTIONS: --enable-source-maps --stack-trace-limit=1000
-    AWS_REGION: us-east-1
     SESSION_TABLE_NAME: ${self:custom.tableName}
 
 functions:
@@ -57,6 +56,11 @@ functions:
     events:
       - websocket:
           route: $disconnect
+  offerHandler:
+    handler: src/handlers/offer.handler
+    events:
+      - websocket:
+          route: offer
   defaultHandler:
     handler: src/handlers/default.handler
     events:
@@ -65,7 +69,7 @@ functions:
 
 resources:
   Resources:
-    sessionTable:
+    SessionTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:custom.tableName}
@@ -77,6 +81,8 @@ resources:
         KeySchema:
           - AttributeName: connectionId
             KeyType: HASH
+          - AttributeName: state
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

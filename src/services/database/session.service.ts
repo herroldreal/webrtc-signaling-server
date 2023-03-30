@@ -1,12 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
 import { Session } from '../../models/session.model';
 import { SessionRepository } from '../../repository/session.repository';
+import { inject, injectable } from 'tsyringe';
+import { ISessionService } from './sessionservice.interface';
 
-@Injectable()
-export class SessionService {
-  private readonly logger = new Logger(SessionService.name);
-
-  constructor(private readonly repository: SessionRepository) {}
+@injectable()
+export class SessionService implements ISessionService {
+  constructor(
+    @inject('ISessionRepository') private repository: SessionRepository,
+  ) {}
 
   async createSession(session: Session): Promise<boolean> {
     return this.repository.create(session);
