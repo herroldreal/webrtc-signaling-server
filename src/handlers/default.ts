@@ -17,12 +17,6 @@ const sessionService: SessionService = diContainer.resolve('ISessionService');
 export const handler: Handler = async (
   event: APIGatewayProxyWebsocketEventV2,
 ): Promise<StatusCodeResponse> => {
-  console.log('=========================================');
-  console.log(
-    `Event => ${event.requestContext.eventType} - Route key => ${event.requestContext.routeKey}`,
-  );
-  console.log('=========================================');
-
   const { connectionId, endpoint } = JSON.parse(JSON.stringify(event.body));
   buildWsClient(endpoint);
   await handleState(connectionId);
