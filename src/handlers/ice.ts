@@ -38,7 +38,7 @@ export const handler: Handler = async (
   console.info(`Route: ${routeKey}`);
   console.info('====================================');
 
-  await handleIce(connectionId.message);
+  await handleIce(connectionId, message);
 
   return { statusCode: 200 };
 };
