@@ -20,7 +20,7 @@ export const handler: Handler = async (
   const connectionId = event.requestContext.connectionId;
   const endpoint = `https://${event.requestContext.domainName}/${event.requestContext.stage}`;
   const routeKey = event.requestContext.routeKey;
-  const { action } = JSON.parse(event.body);
+  const { action, message } = JSON.parse(event.body);
 
   buildWsClient(endpoint);
 
@@ -33,10 +33,12 @@ export const handler: Handler = async (
   console.info('====================================');
   console.info(`Command: ${action}`);
   console.info('====================================');
+  console.info(`Message: ${message}`);
+  console.info('====================================');
   console.info(`Route: ${routeKey}`);
   console.info('====================================');
 
-  await handleIce(connectionId);
+  await handleIce(connectionId.message);
 
   return { statusCode: 200 };
 };
@@ -48,12 +50,12 @@ function buildWsClient(endpoint: string) {
   });
 }
 
-async function handleIce(connectionId: string) {
+async function handleIce(connectionId: string, message: string) {
   try {
     const encoder = new TextEncoder();
     const postCmd = new PostToConnectionCommand({
       ConnectionId: connectionId,
-      Data: encoder.encode('ICE Ready'),
+      Data: encoder.encode(`ICE ${message}`),
     });
 
     const result = await wsClient.send(postCmd);
