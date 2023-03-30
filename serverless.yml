@@ -61,6 +61,11 @@ functions:
     events:
       - websocket:
           route: offer
+  iceHandler:
+    handler: src/handlers/ice.handler
+    events:
+      - websocket:
+          route: ice
   defaultHandler:
     handler: src/handlers/default.handler
     events:

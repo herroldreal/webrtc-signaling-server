@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Handler, Context, APIGatewayProxyWebsocketEventV2 } from 'aws-lambda';
+import { Handler, APIGatewayProxyWebsocketEventV2 } from 'aws-lambda';
 import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
@@ -36,7 +36,7 @@ export const handler: Handler = async (
   console.info(`Route: ${routeKey}`);
   console.info('====================================');
 
-  await handleOffer(connectionId);
+  await handleIce(connectionId);
 
   return { statusCode: 200 };
 };
@@ -48,12 +48,12 @@ function buildWsClient(endpoint: string) {
   });
 }
 
-async function handleOffer(connectionId: string) {
+async function handleIce(connectionId: string) {
   try {
     const encoder = new TextEncoder();
     const postCmd = new PostToConnectionCommand({
       ConnectionId: connectionId,
-      Data: encoder.encode('OFFER Ready'),
+      Data: encoder.encode('ICE Ready'),
     });
 
     const result = await wsClient.send(postCmd);
