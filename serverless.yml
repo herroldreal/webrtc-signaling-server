@@ -66,6 +66,11 @@ functions:
     events:
       - websocket:
           route: ice
+  answerHandler:
+    handler: src/handlers/answer.handler
+    events:
+      - websocket:
+          route: answer
   defaultHandler:
     handler: src/handlers/default.handler
     events:
