@@ -1,4 +1,4 @@
-import { Session } from '../models/session.model';
+import { Session } from '../database/models/session.model';
 
 export interface ISessionRepository {
   create(session: Session): Promise<boolean>;

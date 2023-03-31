@@ -1,4 +1,4 @@
-import { Session } from '../../models/session.model';
+import { Session } from '../../database/models/session.model';
 import { SessionRepository } from '../../repository/session.repository';
 import { inject, injectable } from 'tsyringe';
 import { ISessionService } from './sessionservice.interface';

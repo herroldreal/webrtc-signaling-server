@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { container, Lifecycle } from 'tsyringe';
-import { DynamoStore } from '../utils/dynamostore';
 import { SessionRepository } from '../repository/session.repository';
 import { SessionService } from '../services/database/session.service';
+import { MongoDbStore } from '../database/mongostore';
 
-container.registerSingleton('IDynamoStore', DynamoStore);
+container.registerSingleton('IMongoDbStore', MongoDbStore);
 
 container.register('ISessionRepository', SessionRepository);
 container.register('ISessionService', SessionService);

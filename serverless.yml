@@ -4,11 +4,17 @@ frameworkVersion: 4
 custom:
   tableName: SessionTable
   dynamodb:
+    stages:
+      - dev
     start:
-      port: 5000
+      port: 8000
       inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
       migrate: true
-    stages: dev
+      seed: true
+      convertEmptyValues: true
+      noStart: true
   webpack:
     webpackConfig: 'webpack.config.js'
     includeModules:
@@ -21,7 +27,7 @@ custom:
 plugins:
   - serverless-webpack
   # - serverless-plugin-optimize
-  # - serverless-dynamodb-local
+  - serverless-dynamodb-local
   - serverless-offline
 
 provider:
@@ -75,6 +81,7 @@ functions:
       - websocket:
           route: answer
   defaultHandler:
+    name: websocket-test-dev-defaultHandler
     handler: src/handlers/default.handler
     events:
       - websocket:
