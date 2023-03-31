@@ -25,8 +25,9 @@ export class WebsocketService {
     const session = { id, ws };
     if (!this.onGoingCall) {
       this.sessions.set(id, session);
-      this.send(session, `${MessageType.STATE} Ready`);
+      this.send(session, `${MessageType.STATE} ${WebRTCSessionState.Ready}`);
       this.currentState = WebRTCSessionState.Ready;
+      this.tryMatch(session);
     } else {
       this.send(session, { type: MessageType.ON_GOING_CALL });
     }
@@ -38,8 +39,38 @@ export class WebsocketService {
     );
   }
 
+  private tryMatch(session: Session) {
+    if (this.unmatched != '') {
+      const match = this.unmatched;
+      const other = this.sessions.get(match);
+      if (other) {
+        session.peer = match;
+        other.peer = session.id;
+        this.send(session, {
+          type: MessageType.MATCHED,
+          match: other.id,
+          offer: true,
+        });
+        this.send(other, {
+          type: MessageType.MATCHED,
+          match: session.id,
+          offer: false,
+        });
+        this.onGoingCall = true;
+      }
+    } else {
+      this.unmatched = session.id;
+    }
+  }
+
   private handleMessage(id: string, data: string) {
     try {
+      console.log('===================================================');
+      this.sessions.forEach((session: Session) => {
+        console.log(`Session ID: ${session.id} - Match: ${session.peer}`);
+      });
+      console.log('===================================================');
+
       const message = JSON.parse(data) as ClientMessage;
       const wsMessage = JSON.parse(data);
       const session = this.sessions.get(id);
@@ -70,12 +101,13 @@ export class WebsocketService {
           console.log('==================================');
           console.log(`Handling ANSWER from ${session.id}`);
           console.log('==================================');
-          this.notifyAboutStateUpdate();
           const clientsToSendAnswer = this.sessions.get(session.id);
           this.send(clientsToSendAnswer, wsMessage);
+          this.currentState = WebRTCSessionState.Active;
+          this.notifyAboutStateUpdate();
           break;
         case MessageType.ICE:
-          this.send(peer, wsMessage);
+          this.send(peer, message);
           break;
         case MessageType.PEER_LEFT:
           this.send(peer, message);
@@ -104,6 +136,9 @@ export class WebsocketService {
     this.sessions.forEach((s) => {
       console.log(`Current participants => Peer: ${s.peer} - Match: ${s.id}`);
     });
+
+    this.currentState = WebRTCSessionState.Impossible;
+    this.notifyAboutStateUpdate();
   }
 
   private send(session: Session, payload: any) {
@@ -118,7 +153,7 @@ export class WebsocketService {
 
   private notifyAboutStateUpdate() {
     this.sessions.forEach((session: Session) => {
-      session.ws.send('${MessageType.STATE} $sessionState');
+      session.ws.send(`${MessageType.STATE} ${this.currentState}`);
     });
   }
 }

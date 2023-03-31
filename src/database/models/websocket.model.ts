@@ -1,12 +1,13 @@
 import * as WebSocket from 'ws';
 
 export enum MessageType {
-  STATE = 'state',
-  ICE = 'ice',
-  OFFER = 'offer',
-  ANSWER = 'answer',
-  PEER_LEFT = 'peer-left',
-  ON_GOING_CALL = 'on-going-call',
+  MATCHED = 'MATCHED',
+  STATE = 'STATE',
+  ICE = 'ICE',
+  OFFER = 'OFFER',
+  ANSWER = 'ANSWER',
+  PEER_LEFT = 'PEER-LEFT',
+  ON_GOING_CALL = 'ON-GOING-CALL',
 }
 
 type StateMessage = {
@@ -53,9 +54,9 @@ export type Session = {
 };
 
 export enum WebRTCSessionState {
-  Active = 'active',
-  Creating = 'creating',
-  Ready = 'ready',
-  Impossible = 'impossible',
-  Offline = 'offline',
+  Active = 'Active',
+  Creating = 'Creating',
+  Ready = 'Ready',
+  Impossible = 'Impossible',
+  Offline = 'Offline',
 }
