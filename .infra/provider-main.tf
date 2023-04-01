@@ -4,10 +4,10 @@
 
 # AWS Provider
 terraform {
+  required_version = ">= 1.3.9"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "3.74.0"
     }
   }
 
@@ -15,7 +15,7 @@ terraform {
     organization = "personal-herrold"
 
     workspaces {
-      name = "webrtc-android-personal"
+      name = "webrtc-signaling-server"
     }
   }
 }
