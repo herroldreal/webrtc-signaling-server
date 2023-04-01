@@ -10,11 +10,7 @@ env:
   tf_actions_working_dir: .infra
   TF_VAR_app_env: 'staging'
   TF_VAR_app_region: 'us-east-1'
-  TF_VAR_app_name: 'cooltravels-backend'
-  TF_VAR_database_password: ${{ secrets.DB_AUTH_PASSWORD }}
-  TF_VAR_database_name: ${{ secrets.DB_AUTH_USER }}
-  TF_VAR_vpc_id: ${{ secrets.VPC_ID }}
-  TF_VAR_subnets_ids: ${{ secrets.SUBNETS_IDS }}
+  TF_VAR_app_name: 'webrtc-android-backend'
 permissions:
   pull-requests: write
   contents: read
