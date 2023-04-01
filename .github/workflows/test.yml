@@ -1,0 +1,41 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning Repository
+        uses: actions/checkout@v3
+      - name: Setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: 📦 Installing Dependencies
+        run: npm install --legacy-peer-deps
+      - name: 👕 Linter
+        run: npm run lint
+      - name: Test
+        run: npm run test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - name: Cloning Repository
+        uses: actions/checkout@v3
+      - name: Setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: 📦 Installing Dependencies
+        run: npm install --legacy-peer-deps
+      - name: 💎 Prisma generate
+        run: npm run prisma:generate
+      - name: 🛠️ build-test
+        run: npm run build
