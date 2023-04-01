@@ -55,14 +55,12 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false
+        run: terraform plan -no-color -input=true
         continue-on-error: true
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
-        run:  |
-          echo steps.plan
-          exit 1
+        run: exit 1
 
       - name: Terraform Apply
         id: apply
