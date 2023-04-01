@@ -5,7 +5,7 @@
 # AWS connection & authentication
 
 variable "aws_region" {
-  type = string
+  type        = string
   description = "AWS region"
-  default = 'us-east-1'
+  default     = "us-east-1"
 }
