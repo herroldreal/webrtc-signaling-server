@@ -1,6 +1,6 @@
 resource "aws_docdb_subnet_group" "service" {
   name       = "tf-${var.app_name}"
-  subnet_ids = [aws_subnet.private-subnet[0].id]
+  subnet_ids = "${tolist(aws_subnet.private-subnet.*.id)}"
 }
 
 resource "aws_docdb_cluster_instance" "service" {
