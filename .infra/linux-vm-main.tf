@@ -15,7 +15,7 @@ resource "aws_eip" "linux-eip" {
 resource "aws_instance" "linux-server" {
   ami                         = data.aws_ami.amazon-linux-2.id
   instance_type               = var.linux_instance_type
-  subnet_id                   = aws_subnet.public-subnet.id
+  subnet_id                   = aws_subnet.public-subnet[count.index].id
   vpc_security_group_ids      = [aws_security_group.aws-linux-sg.id]
   associate_public_ip_address = var.linux_associate_public_ip_address
   source_dest_check           = false
