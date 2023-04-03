@@ -15,7 +15,7 @@ resource "aws_vpc" "vpc" {
 
 # Define the public subnet
 resource "aws_subnet" "public-subnet" {
-  count             = var.subnet.count.public
+  count             = var.subnet_count.public
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.public_subnet_cidr_blocks[count.index]
   availability_zone = data.aws_availability_zones.available.names[count.index]
@@ -28,7 +28,7 @@ resource "aws_subnet" "public-subnet" {
 
 # Define Private subnet
 resource "aws_subnet" "private-subnet" {
-  count             = var.subnet.count.private
+  count             = var.subnet_count.private
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.private_subnet_cidr_blocks[count.index]
   availability_zone = data.aws_availability_zones.available.names[count.index]
