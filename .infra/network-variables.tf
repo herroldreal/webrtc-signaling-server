@@ -2,17 +2,10 @@
 ## Network Single AZ Public Only - Variables #
 ##############################################
 
-# AWS AZ
-variable "aws_az" {
-  type        = string
-  description = "AWS AZ"
-  default     = "us-east-1c"
-}
-
 # VPC Variables
 variable "vpc_cidr" {
+  description = "CIDR block for VPC"
   type        = string
-  description = "CIDR for the VPC"
   default     = "10.0.0.0/16"
 }
 
