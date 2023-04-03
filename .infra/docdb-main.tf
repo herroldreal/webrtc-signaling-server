@@ -15,7 +15,7 @@ resource "aws_docdb_cluster" "service" {
   db_subnet_group_name            = aws_docdb_subnet_group.service.name
   cluster_identifier              = "tf-${var.app_name}"
   engine                          = "docdb"
-  availability_zone               = data.aws_availability_zones.available.names[*]
+  availability_zone               = data.aws_availability_zones.available[*].names
   master_username                 = "tf_${replace(var.app_name, "-", "_")}_admin}"
   master_password                 = var.docdb_password
   db_cluster_parameter_group_name = aws_docdb_cluster_parameter_group.service.name
