@@ -22,3 +22,8 @@ variable "public_subnet_cidr" {
   description = "CIDR for the public subnet"
   default     = "10.1.64.0/24"
 }
+
+variable "my_ip" {
+  type = string
+  default = "0.0.0.0/16"
+}

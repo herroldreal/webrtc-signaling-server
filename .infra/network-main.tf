@@ -6,19 +6,35 @@
 resource "aws_vpc" "vpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
+
   tags = {
-    Name = "${lower(var.app_name)}-${lower(var.app_environment)}-vpc"
+    Name        = "${lower(var.app_name)}-${lower(var.app_environment)}-vpc"
     Environment = var.app_environment
   }
 }
 
 # Define the public subnet
 resource "aws_subnet" "public-subnet" {
+  count             = var.subnet.count.public
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = var.public_subnet_cidr
-  availability_zone = var.aws_az
+  cidr_block        = var.public_subnet_cidr_blocks[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+
   tags = {
-    Name = "${lower(var.app_name)}-${lower(var.app_environment)}-public-subnet"
+    Name        = "${lower(var.app_name)}-${lower(var.app_environment)}-public-subnet"
+    Environment = var.app_environment
+  }
+}
+
+# Define Private subnet
+resource "aws_subnet" "private-subnet" {
+  count             = var.subnet.count.private
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.private_subnet_cidr_blocks[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+
+  tags = {
+    Name        = "${lower(var.app_name)}-${lower(var.app_environment)}-private-subnet"
     Environment = var.app_environment
   }
 }
@@ -26,8 +42,9 @@ resource "aws_subnet" "public-subnet" {
 # Define the internet gateway
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.vpc.id
+
   tags = {
-    Name = "${lower(var.app_name)}-${lower(var.app_environment)}-igw"
+    Name        = "${lower(var.app_name)}-${lower(var.app_environment)}-igw"
     Environment = var.app_environment
   }
 }
@@ -35,12 +52,14 @@ resource "aws_internet_gateway" "gw" {
 # Define the public route table
 resource "aws_route_table" "public-rt" {
   vpc_id = aws_vpc.vpc.id
+
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.gw.id
   }
+
   tags = {
-    Name = "${lower(var.app_name)}-${lower(var.app_environment)}-public-subnet-rt"
+    Name        = "${lower(var.app_name)}-${lower(var.app_environment)}-public-subnet-rt"
     Environment = var.app_environment
   }
 }
@@ -49,4 +68,14 @@ resource "aws_route_table" "public-rt" {
 resource "aws_route_table_association" "public-rt-association" {
   subnet_id      = aws_subnet.public-subnet.id
   route_table_id = aws_route_table.public-rt.id
+}
+
+resource "aws_route_table" "private-rt" {
+  vpc_id = aws_vpc.vpc.id
+}
+
+resource "aws_route_table_association" "private-rt" {
+  count = var.subnet_count.private
+  route_table_id =aws_route_table.private-rt.id
+  subnet_id = aws_subnet.private-subnet[count.index].id
 }

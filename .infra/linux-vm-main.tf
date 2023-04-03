@@ -58,22 +58,23 @@ resource "aws_security_group" "aws-linux-sg" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
+    description = "Allow incoming HTTP connections"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow incoming HTTP connections"
   }
 
   ingress {
+    description = "Allow incoming SSH connections"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow incoming SSH connections"
+    cidr_blocks = ["${var.my_ip}/32"]
   }
 
   egress {
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -83,5 +84,27 @@ resource "aws_security_group" "aws-linux-sg" {
   tags = {
     Name        = "${lower(var.app_name)}-${var.app_environment}-linux-sg"
     Environment = var.app_environment
+  }
+}
+
+resource "aws_security_group" "rtc-db" {
+  name        = "WebRTC Document DB"
+  description = "Security group for Document DB"
+  vpc_id      = aws_vpc.vpc.id
+
+  ingress {
+    description     = "Allow DocumentDB traffic from only the DocumentDB"
+    from_port       = "3306"
+    to_port         = "3306"
+    protocol        = "tcp"
+    security_groups = [aws_security_group.aws-linux-sg]
+  }
+
+  ingress {
+    description = "Allow HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/16"]
   }
 }
