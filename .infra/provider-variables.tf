@@ -2,8 +2,7 @@
 ## AWS Provider Module - Variables ##
 #####################################
 
-# AWS connection & authentication
-
+# AWS connections
 variable "aws_region" {
   type        = string
   description = "AWS region"
