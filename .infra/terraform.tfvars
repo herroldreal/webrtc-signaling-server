@@ -3,8 +3,7 @@ app_name        = "webrtc-android-app" # Do NOT enter any spaces
 app_environment = "dev"       # Dev, Test, Staging, Prod, etc
 
 # Network
-vpc_cidr           = "10.11.0.0/16"
-public_subnet_cidr = "10.11.1.0/24"
+vpc_cidr           = "10.0.0.0/16"
 
 # AWS Settings
 aws_region     = "us-east-1"
