@@ -97,14 +97,6 @@ resource "aws_security_group" "rtc-db" {
     from_port       = "3306"
     to_port         = "3306"
     protocol        = "tcp"
-    security_groups = [aws_security_group.aws-linux-sg]
-  }
-
-  ingress {
-    description = "Allow HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/16"]
+    security_groups = [aws_security_group.aws-linux-sg.id]
   }
 }
