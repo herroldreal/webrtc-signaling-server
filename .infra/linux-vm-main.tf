@@ -5,7 +5,6 @@
 # Create Elastic IP for the EC2 instance
 resource "aws_eip" "linux-eip" {
   count    = var.settings.web_app.count
-  instance = aws_instance.linux-server[count.index].id
   vpc      = true
 
   tags = {
@@ -15,7 +14,7 @@ resource "aws_eip" "linux-eip" {
 }
 
 # Create EC2 Instance
-resource "aws_instance" "linux-server" {
+resource "aws_instance" "server" {
   count                       = var.settings.web_app.count
   ami                         = data.aws_ami.amazon-linux-2.id
   instance_type               = var.linux_instance_type
@@ -51,7 +50,7 @@ resource "aws_instance" "linux-server" {
 
 # Associate Elastic IP to Linux Server
 resource "aws_eip_association" "linux-eip-association" {
-  instance_id   = aws_instance.linux-server.id
+  instance_id   = aws_instance.server.id
   allocation_id = aws_eip.linux-eip.id
 }
 
