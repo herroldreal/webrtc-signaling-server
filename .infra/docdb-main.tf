@@ -1,6 +1,7 @@
 resource "aws_docdb_subnet_group" "service" {
+  count      = var.settings.web_app.count
   name       = "tf-${var.app_name}"
-  subnet_ids = [aws_subnet.private-subnet.*.id]
+  subnet_ids = [aws_subnet.private-subnet[count.index].id]
 }
 
 resource "aws_docdb_cluster_instance" "service" {
