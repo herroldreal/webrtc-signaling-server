@@ -35,3 +35,16 @@ variable "linux_data_volume_type" {
   description = "Volumen type of data volumen of Linux Server. Can be standard, gp3, gp2, io1, sc1 or st1"
   default     = "gp2"
 }
+
+// This variable contains the configuration
+// settings for the EC2 and RDS instances
+variable "settings" {
+  description = "Configuration settings"
+  type        = map(any)
+  default     = {
+    "web_app" = {
+      count         = 1          // the number of EC2 instances
+      instance_type = "t2.micro" // the EC2 instance
+    }
+  }
+}

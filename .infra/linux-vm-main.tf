@@ -4,7 +4,10 @@
 
 # Create Elastic IP for the EC2 instance
 resource "aws_eip" "linux-eip" {
-  vpc  = true
+  count    = var.settings.web_app.count
+  instance = aws_instance.linux-server[count.index].id
+  vpc      = true
+
   tags = {
     Name        = "${lower(var.app_name)}-${var.app_environment}-linux-eip"
     Environment = var.app_environment
@@ -13,9 +16,10 @@ resource "aws_eip" "linux-eip" {
 
 # Create EC2 Instance
 resource "aws_instance" "linux-server" {
+  count                       = var.settings.web_app.count
   ami                         = data.aws_ami.amazon-linux-2.id
   instance_type               = var.linux_instance_type
-  subnet_id                   = aws_subnet.public-subnet
+  subnet_id                   = aws_subnet.public-subnet[count.index].id
   vpc_security_group_ids      = [aws_security_group.aws-linux-sg.id]
   associate_public_ip_address = var.linux_associate_public_ip_address
   source_dest_check           = false
