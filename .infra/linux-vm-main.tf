@@ -50,8 +50,9 @@ resource "aws_instance" "server" {
 
 # Associate Elastic IP to Linux Server
 resource "aws_eip_association" "linux-eip-association" {
-  instance_id   = aws_instance.server.id
-  allocation_id = aws_eip.linux-eip.id
+  count = var.settings.web_app.count
+  instance_id   = aws_instance.server[count.index].id
+  allocation_id = aws_eip.linux-eip[count.index].id
 }
 
 # Define the security group for the Linux server
