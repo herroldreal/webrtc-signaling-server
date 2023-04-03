@@ -1,7 +1,6 @@
 resource "aws_docdb_subnet_group" "service" {
-  count = 1
   name       = "tf-${var.app_name}"
-  subnet_ids = [aws_subnet.private-subnet[count.index].id]
+  subnet_ids = [aws_subnet.private-subnet[0].id]
 }
 
 resource "aws_docdb_cluster_instance" "service" {
@@ -13,7 +12,7 @@ resource "aws_docdb_cluster_instance" "service" {
 
 resource "aws_docdb_cluster" "service" {
   skip_final_snapshot             = true
-  db_subnet_group_name            = aws_docdb_subnet_group.service[1].name
+  db_subnet_group_name            = aws_docdb_subnet_group.service.name
   cluster_identifier              = "tf-${var.app_name}"
   engine                          = "docdb"
   master_username                 = "tf_${replace(var.app_name, "-", "_")}_admin}"
