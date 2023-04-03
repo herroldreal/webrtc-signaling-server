@@ -66,7 +66,7 @@ resource "aws_route_table" "public-rt" {
 
 # Assign the public route table to the public subnet
 resource "aws_route_table_association" "public-rt-association" {
-  subnet_id      = aws_subnet.public-subnet.id
+  subnet_id      = aws_subnet.public-subnet[count.index]
   route_table_id = aws_route_table.public-rt.id
 }
 
