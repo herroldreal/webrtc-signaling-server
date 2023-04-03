@@ -23,12 +23,6 @@ variable "public_subnet_cidr" {
   default     = "10.1.64.0/24"
 }
 
-variable "my_ip" {
-  description = "Your IP address"
-  type        = string
-  sensitive   = true
-}
-
 // This variable contains the CIDR blocks for
 // the public subnet. I have only included 4
 // for this tutorial, but if you need more you

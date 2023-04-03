@@ -11,6 +11,7 @@ env:
   TF_VAR_app_env: 'staging'
   TF_VAR_app_region: 'us-east-1'
   TF_VAR_app_name: 'webrtc-android-backend'
+  TF_VAR_docdb_password: ${{ secrets.DB_NAME }}
 permissions:
   pull-requests: write
   contents: read
@@ -43,6 +44,7 @@ jobs:
           TF_VAR_region_name: 'us-east-1'
           TF_VAR_aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           TF_VAR_aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          TF_VAR_docdb_password: ${{ secrets.DB_NAME }}
         run: terraform init
 
       - name: Terraform Validate
