@@ -22,7 +22,7 @@ resource "aws_docdb_cluster" "service" {
 }
 
 resource "aws_docdb_cluster_parameter_group" "service" {
-  family = "docdb3.6"
+  family = "docdb4.0"
   name   = "tf-${var.app_name}"
 
   parameter {
