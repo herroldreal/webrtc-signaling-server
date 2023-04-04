@@ -5,7 +5,7 @@ variable "db_name" {
 
 variable "docdb_instance_class" {
   type = string
-  default = "db.r4.large"
+  default = "db.r6g.large"
 }
 
 variable "docdb_password" {
